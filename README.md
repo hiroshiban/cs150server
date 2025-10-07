@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2025-10-07 17:20:36 ban"
+Last Update: "2025-10-07 17:52:37 ban"
 </div>
 
 <br>
@@ -27,7 +27,7 @@ This repository provides tiny but useful (hopefully) tools to control Konica-Min
 
 **The repository contains *only* original source codes**: a MATLAB client (`cs150.m`), a Python client (`cs150.py`), and a lightweight C# command server (`cs150server.exe`) that you build locally.  
   
-> **No Konica-Minolta DLLs or SDK files are distributed here, following the license and EURA provided by the manufacture.** You must obtain the official **LC‑MISDK** from Konica-Minolta website, and follow their license terms.  
+> **No Konica-Minolta vendor DLLs or SDK files are distributed here, following the license and EURA provided by the manufacture.** You must obtain the official **LC‑MISDK** from Konica-Minolta website, and follow their license terms.  
   
 Konica-Minolta’s **LC‑MISDK** is a .NET SDK for **CS-150/160** (and **LS-150**) luminance/color meters. Direct loading of the C# DLLs, for instance, by calling the AddAssenbly() function inside MATLAB would stack for its complicated dependencies on the external libraries. To overcome this difficulty, this project inserts a **minimal C# server** between MATLAB/Python and the SDK; MATLAB/Python sends text commands over stdin/stdout, and the server returns measured values as CSV.  
   
@@ -42,17 +42,6 @@ LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instru
 - MATLAB sends textual commands: `CONNECT`, `INTEG 0.5`, `MEASURE`, …  
 - Server calls LC‑MISDK and returns `SUCCESS,<Lv(cd/m^2)>,<x>,<y>` or `ERROR,<reason>`.  
 - Tested on Windows 10/11.  
-
-## Licensing & compliance (read me first)
-
-- **No redistribution of vendor SDK/DLLs.** This repo ships *only* original code. Obtain **LC‑MISDK** from Konica Minolta's official download page and follow the EULA included there. 
-- **CS‑200** materials (USB driver, DLL Reference, comms spec) are provided on a separate official page for owners; follow those license terms as well.  
-- Add a `.gitignore` to prevent accidental commits of binaries:  
-  *.dll
-  *.exe
-  cs150server/bin/
-  cs150server/obj/
-  packages/
 
 ## System requirements
 
@@ -768,7 +757,7 @@ clear ph                       % server exits automatically
 
 ### Python client (cs150.py)
 
-Place cs150.py next to a cs150server/ directory that contains your built cs150server.exe (plus any SDK-managed dependencies).  
+Please place cs150.py next to a cs150server/ directory that contains your-built cs150server.exe (plus any SDK-managed dependencies).  
 
 your_project/  
 ├─ cs150.py  
