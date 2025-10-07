@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2025-10-07 17:11:49 ban"
+Last Update: "2025-10-07 17:13:14 ban"
 </div>
 
 <br>
@@ -66,15 +66,15 @@ LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instru
 
 ## Directory layout
 
-this_repo/
-├─ cs150.m (a MATLAB class which communicate with cs150server)
-├─ cs150.py (a Python class which communicate with cs150server)
-├─ cs150server_csharp/ # C# .NET Framework Console App (this repo)
-│ ├─ cs150server.cs (source code)
-│ ├─ cs150server.csproj
-│ └─ (other .cs files)
-└─ docs/
-   └─ images/ # screen shots etc
+this_repo/  
+├─ cs150.m (a MATLAB class which communicate with cs150server)  
+├─ cs150.py (a Python class which communicate with cs150server)  
+├─ cs150server_csharp/ # C# .NET Framework Console App (this repo)  
+│ ├─ cs150server.cs (source code)  
+│ ├─ cs150server.csproj  
+│ └─ (other .cs files)  
+└─ docs/  
+   └─ images/ # screen shots etc  
 
 ## Building the C# server (cs150server)
 
