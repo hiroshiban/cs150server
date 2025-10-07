@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2025-10-07 18:03:54 ban"
+Last Update: "2025-10-07 21:07:10 ban"
 </div>
 
 <br>
@@ -15,15 +15,39 @@ Last Update: "2025-10-07 18:03:54 ban"
 </div>
 <br>
 
-# <a name = "Menu"> **cs150server: MATLAB/Python-CS150 Bridge -- Control Konica-Minolta CS-150/160 from MATLAB/Python seamlessly via a tiny C# command server.** </a>
+***
+# <a name = "Menu"> **Menu** </a>
 
-![cs150server](doc/images/cs150server.jpg)
+- [Introduction - What is cs150server? Why is it required?](#Introduction)
+- [Internal communication flow at a glance](#Internal)
+- [System requirements](#System)
+- [Directory layout](#repo_layout)
+- [Building the C# server (cs150server)](#build)
+  - [Step 0: Installing the cs150 device driver to your Windows PC.](#driver)
+  - [Step 1: Building cs150server](#server)
+  - [cs150server.cs (stdio server)](#cs150server.cs)
+  - [Command protocol of cs150server.exe](#command)
+- [MATLAB client (cs150.m)](#matlab)
+  - [cs150.m (a MATLAB class which calls cs150server as a subprocess)](#cs150.m)
+  - [Example usage of cs150.m](#example_cs150.m)
+- [Python client (cs150.py)](#python)
+  - [cs150.py (a Python class which calls cs150server as a subprocess)](#cs150.py)
+  - [Example usage of cs150.py](#cs150.py)
+- [Troubleshootings](#troubleshootings)
+- [Extending the server](#extending)
+- [References](#references)
+- [License](#license)
 
-## Introduction -- What is cs150server? Why is it required?
-This repository provides tiny but useful (hopefully) tools to control Konica-Minolta CS-150/160 colorimeters from MATLAB/Python. After the update of the colorimeter from CS-100A to CS-150, Konica-Minolta discontinued to provide low-level libraries to communicate the colorimeter through a simple serial communication protocol. Instead, the manufacture now provides a bit higher-level C# libraries only. This update may be useful in some specific situations, while it makes the communications from the external (non-C#) programs, such as MATLAB and Python, difficult. Therefore, I developed simple tools to control the CS-150/160 colorimeter from MATLAB/Python via a tiny C# command server.  
+**********
+
+# <a name = "Introduction"> **Introduction -- What is cs150server? Why is it required?**</a>
+
+![cs150server](doc/images/cs150server.jpg)  
+
+**This repository provides tiny but useful (hopefully) tools to control a Konica-Minolta CS-150/160 colorimeter from MATLAB/Python.** 
+After the update of the colorimeter from CS-100A to CS-150, Konica-Minolta discontinued to provide low-level libraries to communicate the colorimeter through a simple serial communication protocol. Instead, the manufacture now provides a bit higher-level C# libraries only. This update may be useful in some specific situations, while it makes the communications from the external (non-C#) programs, such as MATLAB and Python, difficult. Therefore, I developed simple tools to control the CS-150/160 colorimeter from MATLAB/Python via a tiny C# command server.  
   
 **NOTE: if you copy cs150.m and cs150server directory to ~/subfunctions/colorimeter directory of my inhouse software package, [Mcalibrator2](https://github.com/hiroshiban/Mcalibrator2), you can use cs-150 with Mcalibrato2 on MATLAB.**  
-
 
 **The repository contains *only* original source codes**: a MATLAB client (`cs150.m`), a Python client (`cs150.py`), and a lightweight C# command server (`cs150server.exe`) that you build locally.  
   
@@ -35,7 +59,9 @@ LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instru
 
 > **Note on CS‑200:** The **CS‑200** uses a separate USB driver package with its own DLL reference and communication spec. That driver is **32‑bit only** (apps must be 32‑bit even on 64‑bit OS). If you need CS‑200, please implement a dedicated backend (separate branch/target).  
 
-## Internal communication at a glance
+[back to the menu](#Menu)
+
+# <a name = "Internal"> **Internal communication flows at a glance**</a>
 
 [MATLAB(cs150.m)/Python(cs150.py)] ⇄ [stdin/stdout] ⇄ [C# server:cs150server.exe] ⇄ [LC-MISDK] ⇄ [USB driver] ⇄ [CS-150/160]  
   
@@ -43,7 +69,9 @@ LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instru
 - Server calls LC‑MISDK and returns `SUCCESS,<Lv(cd/m^2)>,<x>,<y>` or `ERROR,<reason>`.  
 - Tested on Windows 10/11.  
 
-## System requirements
+[back to the menu](#Menu)
+
+# <a name = "System"> **System requirements**</a>
 
 - **OS:** Windows 10/11  
 - **.NET:** .NET Framework **4.6.1+** (4.7–4.8 recommended)  
@@ -53,7 +81,9 @@ LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instru
 
 > **If you need CS‑200**: Use the official **CS‑200 USB Driver** package. It’s a **32‑bit driver**; your app must be **x86** even on 64‑bit Windows. :contentReference[oaicite:7]{index=7}
 
-## Directory layout
+[back to the menu](#Menu)
+
+# <a name = "repo_layout"> **Directory layout**</a>
 
 this_repo/  
 ├─ cs150.m (a MATLAB class which communicate with cs150server)  
@@ -65,11 +95,15 @@ this_repo/
 └─ docs/  
    └─ images/ # screen shots etc  
 
-## Building the C# server (cs150server)
+[back to the menu](#Menu)
+
+# <a name = "build"> **Building the C# communication server (cs150server)**</a>
 
 Since this repository can not contain any DLLs distributed by Konica-Minolta and the built exexutable, I will leave step-by-step instructions on how to build the cs150server.exe as below.  
 
-#### **Step 0:** Installing the cs150 device driver to your Windows PC.  
+[back to the menu](#Menu)
+
+### <a name = "driver"> **Step 0: Installing the cs150 device driver to your Windows PC.**</a>
 
 1. Open the "Device Manager" by right-clicking the Windows START icon. Then, open the "Ports (COM & LPT)" tab.  
 
@@ -97,7 +131,9 @@ Since this repository can not contain any DLLs distributed by Konica-Minolta and
   
 Now, we are ready for building cs150server.exe.  
 
-#### **Step 1:** Building cs150server
+[back to the menu](#Menu)
+
+### <a name = "server"> **Step 1: Building cs150server**</a>
 
 1. Create a .NET Framework Console App in Visual Studio (name it as 'cs150server'). Specifically, select "Create a new project" and then select "Console App (.NET Framework)." Please don't select just a simple "Console App" without .NET Framework. Finally, please set the project name, locations etc in the following input window.  
 
@@ -186,7 +222,9 @@ If you need to customize the subroutine, please refer the LC-MISDK documents and
 
 ![server_24](doc/images/server/24_write_cs150_m.png)
 
-### cs150server.cs (stdio server)
+[back to the menu](#Menu)
+
+### <a name = "cs150server.cs"> **cs150server.cs (stdio server)**</a>
 
 ```csharp
 // SPDX-License-Identifier: BSD-2-Clause
@@ -489,8 +527,9 @@ namespace cs150server
     }
 }
 ```
+[back to the menu](#Menu)
 
-## Command protocol of cs150server.exe
+### <a name = "command"> **Command protocol of cs150server.exe**</a>
 
 | Command              | Format            | Example response                   |
 | -------------------- | ----------------- | ---------------------------------- |
@@ -506,7 +545,9 @@ Notes:
 Decimal is dot (.). The server uses InvariantCulture.  
 Any non‑SUCCESS line should be treated as an error.  
 
-### MATLAB client (cs150.m)
+[back to the menu](#Menu)
+
+### <a name = "matlab"> **MATLAB client (cs150.m)**</a>
 
 Place cs150.m next to a cs150server/ directory that contains your built cs150server.exe (plus any SDK-managed dependencies).  
 
@@ -516,7 +557,9 @@ your_project/
    └─ cs150server.exe # you have to built this locally  
    └─ all dependent DLLs  
 
-### cs150.m (a MATLAB class which calls cs150server as a subprocess)
+[back to the menu](#Menu)
+
+### <a name = "cs150.m"> **cs150.m (a MATLAB class which calls cs150server as a subprocess)**</a>
 
 ```MATLAB
 classdef cs150 < handle
@@ -744,7 +787,9 @@ classdef cs150 < handle
 end % classdef cs150
 ```
 
-## Example usage of cs150.m
+[back to the menu](#Menu)
+
+### <a name = "example_cs150.m"> **Example usage of cs150.m**</a>
 
 ```MATLAB
 ph = cs150();                  % starts the server
@@ -755,7 +800,9 @@ fprintf('Lv=%.4f cd/m^2, xy=(%.4f, %.4f)\n', Y, x, y);
 clear ph                       % server exits automatically
 ```
 
-### Python client (cs150.py)
+[back to the menu](#Menu)
+
+### <a name = "python"> **Python client (cs150.py)**</a>
 
 Please place cs150.py next to a cs150server/ directory that contains your-built cs150server.exe (plus any SDK-managed dependencies).  
 
@@ -765,7 +812,9 @@ your_project/
    └─ cs150server.exe # you have to built this locally  
    └─ all dependent DLLs  
 
-### cs150.py (a Python class which calls cs150server as a subprocess)
+[back to the menu](#Menu)
+
+### <a name = "cs150.py"> **cs150.py (a Python class which calls cs150server as a subprocess)**</a>
 
 ```Python
 import subprocess
@@ -911,7 +960,9 @@ class CS150:
         self.close()
 ```
 
-## Example usage of cs150.py
+[back to the menu](#Menu)
+
+### <a name = "cs150.py"> **Example usage of cs150.py**</a>
 
 ```python
 from cs150 import CS150
@@ -948,7 +999,9 @@ except (FileNotFoundError, ConnectionError, RuntimeError, ValueError) as e:
     print(f"\nAn error occurred: {e}")
 ```
 
-## Troubleshootings
+[back to the menu](#Menu)
+
+### <a name = "troubleshootings"> **Troubleshootings**</a>
 
 - **"Not connected" / connect errors**
 Please verify USB driver and cables; follow the LC‑MISDK Reference Manual for setup steps (included in the SDK ZIP).  
@@ -959,19 +1012,25 @@ Build x64 for CS-150/160 with LC‑MISDK. For CS‑200, the official page notes 
 - **Decimal commas**
 The server always outputs dot decimals; MATLAB’s str2double will parse these regardless of the OS locale.  
 
-## Extending the server
+[back to the menu](#Menu)
+
+### <a name = "extending"> **Extending the server**</a>
 
 - **Continuous measurement**: Add MEASURE_CONT/STOP commands and stream results.
 - **Other color spaces**: LC‑MISDK exposes alternate output types (e.g., u′v′, XYZ); use the appropriate data class with ReadLatestData(...). (See Reference Manual in the SDK ZIP.) 
 - **CS-200 backend**: Implement a separate build target that calls the CS‑200 DLL APIs from the official driver package (32‑bit). 
 
-## References
+[back to the menu](#Menu)
+
+### <a name = "references"> **References**</a>
 
 - LC-MISDK (official download & docs): system requirements, supported instruments (CS-150/160, LS-150/160), 32/64-bit app support. [***LC-MISDK.*** ](https://www.konicaminolta.com/instruments/download/software/light/lc-misdk/index.html)  
 - CS-200 USB Driver (official page): 32‑bit driver; DLL reference & communication spec for writing your own software. [***cs-200***](https://www.konicaminolta.com/instruments/download/software/light/cs-200/index.html) 
 - CS-150 product page (specs/overview): Konica Minolta Sensing Americas. [***cs-150***](https://sensing.konicaminolta.us/us/products/cs-150-luminance-and-color-meter/)  
 
-## **License**  
+[back to the menu](#Menu)
+
+### <a name = "license"> **License** </a>
 
 <img src="https://img.shields.io/badge/LICENSE-BSD-red" /><br>
 
@@ -990,3 +1049,5 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 The views and conclusions contained in the software and documentation are those of the authors and should not be interpreted as representing official policies, either expressed or implied, of the FreeBSD Project.  
   
 **Konica Minolta SDKs/drivers/manuals are not included and are governed by their respective licenses/EULAs.**  
+
+[back to the menu](#Menu)
