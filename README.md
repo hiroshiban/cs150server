@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2025-10-07 17:13:14 ban"
+Last Update: "2025-10-07 17:20:36 ban"
 </div>
 
 <br>
@@ -78,7 +78,7 @@ this_repo/
 
 ## Building the C# server (cs150server)
 
-Since this repository can not contains any DLLs distributed by Konica-Minolta and the built exexutable, I will leave step-by-step instructions on how to build the cs150.exe as below.  
+Since this repository can not contain any DLLs distributed by Konica-Minolta and the built exexutable, I will leave step-by-step instructions on how to build the cs150.exe as below.  
 
 #### **Step 0:** Installing the cs150 device driver to your Windows PC.  
 
@@ -758,23 +758,23 @@ Any non‑SUCCESS line should be treated as an error.
 ## Example of cs150.m
 
 ```MATLAB
-ph = cs150();          % starts the server
-ph.connect();          % connects the instrument
-ph.set_integration_time(0.5);   % or: ph.set_integration_time('auto')
-[Y,x,y] = ph.measure();
+ph = cs150();                  % starts the server
+ph.connect();                  % connects the instrument
+ph.set_integration_time(0.5);  % or: ph.set_integration_time('auto')
+[qq,Y,x,y] = ph.measure();     % measurement
 fprintf('Lv=%.4f cd/m^2, xy=(%.4f, %.4f)\n', Y, x, y);
-clear ph              % server exits automatically
+clear ph                       % server exits automatically
 ```
 
 ### Python client (cs150.py)
 
 Place cs150.py next to a cs150server/ directory that contains your built cs150server.exe (plus any SDK-managed dependencies).  
 
-your_project/
-├─ cs150.py
-└─ cs150server/
-   └─ cs150server.exe # you have to built this locally
-   └─ all dependent DLLs
+your_project/  
+├─ cs150.py  
+└─ cs150server/  
+   └─ cs150server.exe # you have to built this locally  
+   └─ all dependent DLLs  
 
 ### cs150.py (a Python class which calls cs150server as a subprocess)
 
@@ -990,11 +990,11 @@ cs150server -- MATLAB/Python–CS150 Bridge -- Control Konica-Minolta CS-150/160
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:  
 
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in
-      the documentation and/or other materials provided with the distribution
+    * Redistributions of source code must retain the above copyright  
+      notice, this list of conditions and the following disclaimer.  
+    * Redistributions in binary form must reproduce the above copyright  
+      notice, this list of conditions and the following disclaimer in  
+      the documentation and/or other materials provided with the distribution  
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
