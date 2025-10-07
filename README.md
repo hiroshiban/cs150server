@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2025-10-07 17:52:37 ban"
+Last Update: "2025-10-07 18:03:54 ban"
 </div>
 
 <br>
@@ -27,7 +27,7 @@ This repository provides tiny but useful (hopefully) tools to control Konica-Min
 
 **The repository contains *only* original source codes**: a MATLAB client (`cs150.m`), a Python client (`cs150.py`), and a lightweight C# command server (`cs150server.exe`) that you build locally.  
   
-> **No Konica-Minolta vendor DLLs or SDK files are distributed here, following the license and EURA provided by the manufacture.** You must obtain the official **LC‑MISDK** from Konica-Minolta website, and follow their license terms.  
+> **No Konica-Minolta vendor DLLs or SDK files are distributed here, following the license and EULA provided by the manufacture.** You must obtain the official **LC‑MISDK** from Konica-Minolta website, and follow their license terms.  
   
 Konica-Minolta’s **LC‑MISDK** is a .NET SDK for **CS-150/160** (and **LS-150**) luminance/color meters. Direct loading of the C# DLLs, for instance, by calling the AddAssenbly() function inside MATLAB would stack for its complicated dependencies on the external libraries. To overcome this difficulty, this project inserts a **minimal C# server** between MATLAB/Python and the SDK; MATLAB/Python sends text commands over stdin/stdout, and the server returns measured values as CSV.  
   
@@ -67,7 +67,7 @@ this_repo/
 
 ## Building the C# server (cs150server)
 
-Since this repository can not contain any DLLs distributed by Konica-Minolta and the built exexutable, I will leave step-by-step instructions on how to build the cs150.exe as below.  
+Since this repository can not contain any DLLs distributed by Konica-Minolta and the built exexutable, I will leave step-by-step instructions on how to build the cs150server.exe as below.  
 
 #### **Step 0:** Installing the cs150 device driver to your Windows PC.  
 
@@ -138,7 +138,7 @@ Once added, the nuget path will be shown in the "Option " window as below.
 
 If you confirm the directory is properly added as a source, please press the "OK" button and close the window.  
 
-Next, in the "NuGet Packages" managing window, select the "package source" to install LC-MISDK. You can find the "LC-LISDK" name on the left panel. Then, please press "Install" button on the right panel. Please select "OK" and "I Accept" in the following panels.  
+Next, in the "NuGet Packages" managing window, select the "package source" to install LC-MISDK. You can find the "LC-MISDK" name on the left panel. Then, please press "Install" button on the right panel. Please select "OK" and "I Accept" in the following panels.  
 
 ![server_13](doc/images/server/13_selecting_package_source.png)
 ![server_14](doc/images/server/14_installing_LC_MISDK.png)
@@ -182,16 +182,16 @@ To do this, for instance, with MATLAB, please rename "(Release|Debug)" directory
 
 ![server_23](doc/images/server/23_organized_directory.png)
 
-If you need to customize the subroutine, please refer the LC-MISKD documents and modify the source of CS150.m or CS150.py.  
+If you need to customize the subroutine, please refer the LC-MISDK documents and modify the source of CS150.m or CS150.py.  
 
 ![server_24](doc/images/server/24_write_cs150_m.png)
 
 ### cs150server.cs (stdio server)
 
 ```csharp
-// SPDX-License-Identifier: BSD
+// SPDX-License-Identifier: BSD-2-Clause
 /**
- * @file    CS150server.cpp
+ * @file    cs150server.cs
  * @brief   A tiny stdio command server to operate Konica Minolta CS‑150/CS‑160
  *          from MATLAB and Python (bridging MATLAB/Python and LC‑MISDK through
  *          an external process).
@@ -490,15 +490,31 @@ namespace cs150server
 }
 ```
 
+## Command protocol of cs150server.exe
+
+| Command              | Format            | Example response                   |
+| -------------------- | ----------------- | ---------------------------------- |
+| Connect              | `CONNECT`         | `SUCCESS,Connected to CS-150`      |
+| Set integration time | `INTEG <seconds>` | `SUCCESS,Integration time set`     |
+| Set auto integration | `INTEG AUTO`      | `SUCCESS,Integration time set`     |
+| Single measurement   | `MEASURE`         | `SUCCESS,<Lv(cd/m^2)>,<x>,<y>`     |
+| Disconnect           | `DISCONNECT`      | `SUCCESS,Disconnected` (or silent) |
+| Quit server          | `EXIT`            | *(process exits)*                  |
+
+
+Notes:  
+Decimal is dot (.). The server uses InvariantCulture.  
+Any non‑SUCCESS line should be treated as an error.  
+
 ### MATLAB client (cs150.m)
 
 Place cs150.m next to a cs150server/ directory that contains your built cs150server.exe (plus any SDK-managed dependencies).  
 
-your_project/
-├─ cs150.m
-└─ cs150server/
-   └─ cs150server.exe # you have to built this locally
-   └─ all dependent DLLs
+your_project/  
+├─ cs150.m  
+└─ cs150server/  
+   └─ cs150server.exe # you have to built this locally  
+   └─ all dependent DLLs  
 
 ### cs150.m (a MATLAB class which calls cs150server as a subprocess)
 
@@ -511,7 +527,7 @@ classdef cs150 < handle
   % [usage]
   % % launching server and connect to the colorimeter
   % photometer = cs150();
-  % photometer.connect();
+  % photometer.gen_port();
   %
   % % setting the integration time
   % photometer.set_integration_time(0.5);
@@ -728,27 +744,11 @@ classdef cs150 < handle
 end % classdef cs150
 ```
 
-## Command protocol of cs150.m
-
-| Command              | Format            | Example response                   |
-| -------------------- | ----------------- | ---------------------------------- |
-| Connect              | `CONNECT`         | `SUCCESS,Connected to CS-150`      |
-| Set integration time | `INTEG <seconds>` | `SUCCESS,Integration time set`     |
-| Set auto integration | `INTEG AUTO`      | `SUCCESS,Integration time set`     |
-| Single measurement   | `MEASURE`         | `SUCCESS,<Lv(cd/m^2)>,<x>,<y>`     |
-| Disconnect           | `DISCONNECT`      | `SUCCESS,Disconnected` (or silent) |
-| Quit server          | `EXIT`            | *(process exits)*                  |
-
-
-Notes:  
-Decimal is dot (.). The server uses InvariantCulture.  
-Any non‑SUCCESS line should be treated as an error.  
-
-## Example of cs150.m
+## Example usage of cs150.m
 
 ```MATLAB
 ph = cs150();                  % starts the server
-ph.connect();                  % connects the instrument
+ph.gen_port();                 % connects the instrument, the name is to match with the Mcalibrator2 conventions.
 ph.set_integration_time(0.5);  % or: ph.set_integration_time('auto')
 [qq,Y,x,y] = ph.measure();     % measurement
 fprintf('Lv=%.4f cd/m^2, xy=(%.4f, %.4f)\n', Y, x, y);
@@ -776,7 +776,7 @@ from typing import Tuple
 
 class CS150:
     """
-    Python client to control Konica-Minolta CS-150/200.
+    Python client to control Konica-Minolta CS-150/160.
     It runs Cs150Server.exe made of C# in the background and operates via inter-process communication.
     """
 
@@ -911,7 +911,7 @@ class CS150:
         self.close()
 ```
 
-## Example of cs150.py
+## Example usage of cs150.py
 
 ```python
 from cs150 import CS150

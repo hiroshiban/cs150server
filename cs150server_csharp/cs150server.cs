@@ -1,6 +1,6 @@
-﻿// SPDX-License-Identifier: MIT
+﻿// SPDX-License-Identifier: BSD-2-Clause
 /**
- * @file    CS150server.cpp
+ * @file    cs150server.cs
  * @brief   A tiny stdio command server to operate Konica Minolta CS‑150/CS‑160
  *          from MATLAB and Python (bridging MATLAB/Python and LC‑MISDK through
  *          an external process).
@@ -51,10 +51,13 @@
  *
  *
  * Created    : "2025-09-30 15:02:28 ban"
- * Last Update: "2025-10-07 11:31:51 ban"
+ * Last Update: "2025-10-07 18:12:48 ban"
  */
- 
+
 using System;
+using System.Globalization;
+using System.IO;
+using System.Text;
 using Konicaminolta;
 
 namespace cs150server
@@ -67,7 +70,13 @@ namespace cs150server
 
         static void Main(string[] args)
         {
-            // when this execute is launched, sdk is initialized following the standard procedure and contexts.
+            // Configure console for UTF-8 & auto-flush to ensure MATLAB/Python can read lines promptly
+            Console.OutputEncoding = Encoding.UTF8;
+            var stdout = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
+            Console.SetOut(stdout);
+            var stderr = new StreamWriter(Console.OpenStandardError()) { AutoFlush = true };
+            Console.SetError(stderr);
+
             try
             {
                 sdk = LightColorMISDK.GetInstance();
@@ -192,7 +201,9 @@ namespace cs150server
             }
 
             // output the measurement result as a string with "," as a delimiter
-            Console.WriteLine($"SUCCESS,{lvxyValue.Lv},{lvxyValue.x},{lvxyValue.y}");
+            Console.WriteLine(string.Format(
+                CultureInfo.InvariantCulture,
+                "SUCCESS,{0},{1},{2}", lvxyValue.Lv, lvxyValue.x, lvxyValue.y));
         }
 
         private static void HandleSetIntegrationTime(string argument)
@@ -217,10 +228,11 @@ namespace cs150server
             {
                 inputTime.MeasTimeMode = MeasTimeMode.Auto;
             }
+
             else
             {
-                // if not "AUTO", convert it to an integer
-                if (double.TryParse(argument, out double timeInSeconds))
+                // parse with invariant culture (dot decimal)
+                if (double.TryParse(argument, NumberStyles.Float, CultureInfo.InvariantCulture, out double timeInSeconds))
                 {
                     inputTime.MeasTimeMode = MeasTimeMode.Manual;
                     inputTime.ManualMeasurementTime = timeInSeconds;

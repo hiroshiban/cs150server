@@ -6,7 +6,7 @@ from typing import Tuple
 
 class CS150:
     """
-    Python client to control Konica-Minolta CS-150/200.
+    Python client to control Konica-Minolta CS-150/160.
     It runs Cs150Server.exe made of C# in the background and operates via inter-process communication.
     """
 

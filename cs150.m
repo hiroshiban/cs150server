@@ -6,7 +6,7 @@ classdef cs150 < handle
   % [usage]
   % % launching server and connect to the colorimeter
   % photometer = cs150();
-  % photometer.connect();
+  % photometer.gen_port();
   %
   % % setting the integration time
   % photometer.set_integration_time(0.5);
@@ -21,7 +21,7 @@ classdef cs150 < handle
   %
   %
   % Created    : "2025-09-25 12:40:30 ban"
-  % Last Update: "2025-10-06 14:38:44 ban"
+  % Last Update: "2025-10-07 18:00:52 ban"
 
   properties (SetAccess = private)
     port_name='COM1';  % a dummy variable for consistency with the other functions.
