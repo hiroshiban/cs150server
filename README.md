@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2025-10-07 16:26:49 ban"
+Last Update: "2025-10-07 17:11:49 ban"
 </div>
 
 <br>
@@ -19,7 +19,7 @@ Last Update: "2025-10-07 16:26:49 ban"
 
 ![cs150server](doc/images/cs150server.jpg)
 
-**Introduction -- What is cs150server? Why is it required?**
+## Introduction -- What is cs150server? Why is it required?
 This repository provides tiny but useful (hopefully) tools to control Konica-Minolta CS-150/160 colorimeters from MATLAB/Python. After the update of the colorimeter from CS-100A to CS-150, Konica-Minolta discontinued to provide low-level libraries to communicate the colorimeter through a simple serial communication protocol. Instead, the manufacture now provides a bit higher-level C# libraries only. This update may be useful in some specific situations, while it makes the communications from the external (non-C#) programs, such as MATLAB and Python, difficult. Therefore, I developed simple tools to control the CS-150/160 colorimeter from MATLAB/Python via a tiny C# command server.  
   
 **NOTE: if you copy cs150.m and cs150server directory to ~/subfunctions/colorimeter directory of my inhouse software package, [Mcalibrator2](https://github.com/hiroshiban/Mcalibrator2), you can use cs-150 with Mcalibrato2 on MATLAB.**  
