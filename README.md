@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2025-10-07 21:07:10 ban"
+Last Update: "2025-10-07 23:11:28 ban"
 </div>
 
 <br>
@@ -103,7 +103,7 @@ Since this repository can not contain any DLLs distributed by Konica-Minolta and
 
 [back to the menu](#Menu)
 
-### <a name = "driver"> **Step 0: Installing the cs150 device driver to your Windows PC.**</a>
+### <a name = "driver"> **Step 1: Installing the cs150 device driver to your Windows PC.**</a>
 
 1. Open the "Device Manager" by right-clicking the Windows START icon. Then, open the "Ports (COM & LPT)" tab.  
 
@@ -133,7 +133,7 @@ Now, we are ready for building cs150server.exe.
 
 [back to the menu](#Menu)
 
-### <a name = "server"> **Step 1: Building cs150server**</a>
+### <a name = "server"> **Step 2: Building cs150server**</a>
 
 1. Create a .NET Framework Console App in Visual Studio (name it as 'cs150server'). Specifically, select "Create a new project" and then select "Console App (.NET Framework)." Please don't select just a simple "Console App" without .NET Framework. Finally, please set the project name, locations etc in the following input window.  
 
