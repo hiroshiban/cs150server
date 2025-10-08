@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2025-10-07 23:11:28 ban"
+Last Update: "2025-10-08 10:36:08 ban"
 </div>
 
 <br>
@@ -23,8 +23,8 @@ Last Update: "2025-10-07 23:11:28 ban"
 - [System requirements](#System)
 - [Directory layout](#repo_layout)
 - [Building the C# server (cs150server)](#build)
-  - [Step 0: Installing the cs150 device driver to your Windows PC.](#driver)
-  - [Step 1: Building cs150server](#server)
+  - [Step 1: Installing the cs150 device driver to your Windows PC.](#driver)
+  - [Step 2: Building cs150server](#server)
   - [cs150server.cs (stdio server)](#cs150server.cs)
   - [Command protocol of cs150server.exe](#command)
 - [MATLAB client (cs150.m)](#matlab)
@@ -77,7 +77,7 @@ LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instru
 - **.NET:** .NET Framework **4.6.1+** (4.7–4.8 recommended)  
 - **IDE:** Visual Studio 2022 (Community is fine)  
 - **MATLAB:** R2022a+ (tested, for stable `.NET` interop and `System.Diagnostics.Process`)  
-- **SDK:** **LC‑MISDK** for CS‑150/CS‑160 (download and extract ZIP; follow the Reference Manual). LC‑MISDK supports building **32‑bit and 64‑bit** apps and lists **CS‑150/CS‑160 / LS‑150/LS‑160** as compatible. :contentReference[oaicite:6]{index=6}
+- **SDK:** **LC‑MISDK** for CS‑150/CS‑160 (download and extract ZIP; follow the Reference Manual). LC‑MISDK supports building **32‑bit and 64‑bit** apps and lists **CS‑150/CS‑160 / LS‑150/LS‑160** as compatible.  
 
 > **If you need CS‑200**: Use the official **CS‑200 USB Driver** package. It’s a **32‑bit driver**; your app must be **x86** even on 64‑bit Windows. :contentReference[oaicite:7]{index=7}
 
