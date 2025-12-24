@@ -79,7 +79,7 @@ LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instru
 - **MATLAB:** R2022a+ (tested, for stable `.NET` interop and `System.Diagnostics.Process`)  
 - **SDK:** **LC‑MISDK** for CS‑150/CS‑160 (download and extract ZIP; follow the Reference Manual). LC‑MISDK supports building **32‑bit and 64‑bit** apps and lists **CS‑150/CS‑160 / LS‑150/LS‑160** as compatible.  
 
-> **If you need CS‑200**: Use the official **CS‑200 USB Driver** package. It’s a **32‑bit driver**; your app must be **x86** even on 64‑bit Windows. :contentReference[oaicite:7]{index=7}
+> **If you need CS‑200**: Use the official **CS‑200 USB Driver** package. It’s a **32‑bit driver**; your app must be **x86** even on 64‑bit Windows. 
 
 [back to the menu](#Menu)
 
