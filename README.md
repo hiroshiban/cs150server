@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2025-10-08 13:55:41 ban"
+Last Update: "2026-03-24 15:51:00 ban"
 </div>
 
 <br>
@@ -135,6 +135,11 @@ Now, we are ready for building cs150server.exe.
 
 ### <a name = "server"> **Step 2: Building cs150server**</a>
 
+> **Note on `cs150server.csproj`:**  
+> This repository already includes the project file ('cs150server.csproj') and the source code ('cs150server.cs').  
+> * **Recommended approach (Quick Setup):** You can simply open the included 'cs150server.csproj' directly in Visual Studio. If you do this, you can skip steps 1, 2, and 5 below. You only need to follow steps 3 and 4 to configure the local NuGet package source for the LC-MISDK, and then build the solution (Step 6).  
+> * **Manual approach (From Scratch):** If you prefer to set up the project entirely from scratch or encounter any environment-specific issues, please follow the detailed step-by-step instructions below from the beginning.  
+
 1. Create a .NET Framework Console App in Visual Studio (name it as 'cs150server'). Specifically, select "Create a new project" and then select "Console App (.NET Framework)." Please don't select just a simple "Console App" without .NET Framework. Finally, please set the project name, locations etc in the following input window.  
 
 ![server_01](doc/images/server/01_launching_VisualStudio.png)
@@ -194,11 +199,11 @@ Please select the Program.cs file from the right panel.
 
 ![server_18](doc/images/server/18_before_updating_code.png)
 
-Then, please overwrite Program.cs by copying and pasting the contents of cs150server.cpp in this repository.  
+Then, please overwrite Program.cs by copying and pasting the contents of cs150server.cs in this repository.  
 
 ![server_19](doc/images/server/19_after_updating_code.png)
 
-6. Finally, you are ready to build the "cs150server.exe."  
+1. Finally, you are ready to build the "cs150server.exe."  
 
 Please select the "build" in the manu bar (see the figure above). Then, from the sub menu, please select "Build Solution."  
 
