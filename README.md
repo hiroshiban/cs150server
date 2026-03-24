@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2026-03-24 15:51:00 ban"
+Last Update: "2026-03-24 16:17:31 ban"
 </div>
 
 <br>
@@ -85,15 +85,17 @@ LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instru
 
 # <a name = "repo_layout"> **Directory layout**</a>
 
+```
 this_repo/  
 ├─ cs150.m (a MATLAB class which communicate with cs150server)  
 ├─ cs150.py (a Python class which communicate with cs150server)  
 ├─ cs150server_csharp/ # C# .NET Framework Console App (this repo)  
-│ ├─ cs150server.cs (source code)  
-│ ├─ cs150server.csproj  
-│ └─ (other .cs files)  
+│   ├─ cs150server.cs (source code)  
+│   ├─ cs150server.csproj  
+│   └─ (other .cs files)  
 └─ docs/  
-   └─ images/ # screen shots etc  
+    └─ images/ # screen shots etc  
+```
 
 [back to the menu](#Menu)
 
@@ -556,11 +558,13 @@ Any non‑SUCCESS line should be treated as an error.
 
 Place cs150.m next to a cs150server/ directory that contains your built cs150server.exe (plus any SDK-managed dependencies).  
 
+```
 your_project/  
 ├─ cs150.m  
 └─ cs150server/  
    └─ cs150server.exe # you have to built this locally  
    └─ all dependent DLLs  
+```
 
 [back to the menu](#Menu)
 
@@ -811,11 +815,13 @@ clear ph                       % server exits automatically
 
 Please place cs150.py next to a cs150server/ directory that contains your-built cs150server.exe (plus any SDK-managed dependencies).  
 
+```
 your_project/  
 ├─ cs150.py  
 └─ cs150server/  
    └─ cs150server.exe # you have to built this locally  
    └─ all dependent DLLs  
+```
 
 [back to the menu](#Menu)
 
