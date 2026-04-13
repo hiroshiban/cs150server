@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2025-10-07 11:33:12 ban"<br>
-Last Update: "2026-03-24 16:17:31 ban"
+Last Update: "2026-04-13 17:49:55 ban"
 </div>
 
 <br>
@@ -55,9 +55,9 @@ After the update of the colorimeter from CS-100A to CS-150, Konica-Minolta disco
   
 Konica-Minolta’s **LC‑MISDK** is a .NET SDK for **CS-150/160** (and **LS-150**) luminance/color meters. Direct loading of the C# DLLs, for instance, by calling the AddAssenbly() function inside MATLAB would stack for its complicated dependencies on the external libraries. To overcome this difficulty, this project inserts a **minimal C# server** between MATLAB/Python and the SDK; MATLAB/Python sends text commands over stdin/stdout, and the server returns measured values as CSV.  
   
-LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instruments and supports building both **32‑bit and 64‑bit** applications.  
+LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instruments and supports building **64‑bit** applications.  
 
-> **Note on CS‑200:** The **CS‑200** uses a separate USB driver package with its own DLL reference and communication spec. That driver is **32‑bit only** (apps must be 32‑bit even on 64‑bit OS). If you need CS‑200, please implement a dedicated backend (separate branch/target).  
+> **Note on CS‑200:** The **CS‑200** uses a separate USB driver package (64-bit only) with its own DLL reference and communication spec. If you use CS‑200, please prepare a dedicated backend (separate branch/target).  
 
 [back to the menu](#Menu)
 
@@ -77,9 +77,9 @@ LC‑MISDK officially lists **CS-150/160 (and LS-150/160)** as compatible instru
 - **.NET:** .NET Framework **4.6.1+** (4.7–4.8 recommended)  
 - **IDE:** Visual Studio 2022 (Community is fine)  
 - **MATLAB:** R2022a+ (tested, for stable `.NET` interop and `System.Diagnostics.Process`)  
-- **SDK:** **LC‑MISDK** for CS‑150/CS‑160 (download and extract ZIP; follow the Reference Manual). LC‑MISDK supports building **32‑bit and 64‑bit** apps and lists **CS‑150/CS‑160 / LS‑150/LS‑160** as compatible.  
+- **SDK:** **LC‑MISDK** for CS‑150/CS‑160 (download and extract ZIP; follow the Reference Manual). LC‑MISDK supports building **64‑bit** apps and lists **CS‑150/CS‑160 / LS‑150/LS‑160** as compatible.  
 
-> **If you need CS‑200**: Use the official **CS‑200 USB Driver** package. It’s a **32‑bit driver**; your app must be **x86** even on 64‑bit Windows. 
+> **If you need CS‑200**: Please prepare a dedicated backend with the official **CS‑200 USB Driver** (that is separately distributed from CS-150 series) package.  
 
 [back to the menu](#Menu)
 
@@ -1018,8 +1018,6 @@ except (FileNotFoundError, ConnectionError, RuntimeError, ValueError) as e:
 Please verify USB driver and cables; follow the LC‑MISDK Reference Manual for setup steps (included in the SDK ZIP).  
 - **Windows 11**
 The LC‑MISDK page lists Windows 11 Pro among supported OS.  
-- **Bitness mismatch**
-Build x64 for CS-150/160 with LC‑MISDK. For CS‑200, the official page notes the USB driver is 32‑bit only; build x86 apps.  
 - **Decimal commas**
 The server always outputs dot decimals; MATLAB’s str2double will parse these regardless of the OS locale.  
 
@@ -1029,14 +1027,14 @@ The server always outputs dot decimals; MATLAB’s str2double will parse these r
 
 - **Continuous measurement**: Add MEASURE_CONT/STOP commands and stream results.
 - **Other color spaces**: LC‑MISDK exposes alternate output types (e.g., u′v′, XYZ); use the appropriate data class with ReadLatestData(...). (See Reference Manual in the SDK ZIP.) 
-- **CS-200 backend**: Implement a separate build target that calls the CS‑200 DLL APIs from the official driver package (32‑bit). 
+- **CS-200 backend**: Please prepare a separate build target that calls the CS‑200 DLL APIs with CS-200 driver that is separately distributed on the official webpage.  
 
 [back to the menu](#Menu)
 
 ### <a name = "references"> **References**</a>
 
-- LC-MISDK (official download & docs): system requirements, supported instruments (CS-150/160, LS-150/160), 32/64-bit app support. [***LC-MISDK.*** ](https://www.konicaminolta.com/instruments/download/software/light/lc-misdk/index.html)  
-- CS-200 USB Driver (official page): 32‑bit driver; DLL reference & communication spec for writing your own software. [***cs-200***](https://www.konicaminolta.com/instruments/download/software/light/cs-200/index.html) 
+- LC-MISDK (official download & docs): system requirements, supported instruments (CS-150/160, LS-150/160), 64-bit app support. [***LC-MISDK.*** ](https://www.konicaminolta.com/instruments/download/software/light/lc-misdk/index.html)  
+- CS-200 USB Driver (official page): DLL reference & communication spec for writing your own software. [***cs-200***](https://www.konicaminolta.com/instruments/download/software/light/cs-200/index.html) 
 - CS-150 product page (specs/overview): Konica Minolta Sensing Americas. [***cs-150***](https://sensing.konicaminolta.us/us/products/cs-150-luminance-and-color-meter/)  
 
 [back to the menu](#Menu)
